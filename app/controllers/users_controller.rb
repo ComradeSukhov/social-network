@@ -7,7 +7,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       helpers.log_in(@user)
-      redirect_to root_url, notice: 'You signed up successfully'
+      redirect_to user_url(helpers.current_user[:id]),
+        notice: 'You signed up successfully'
     else
       flash.now[:alert] = 'Sorry, try again!'
       render :new
