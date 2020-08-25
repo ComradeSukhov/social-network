@@ -1,0 +1,25 @@
+.columns.is-centered
+  .column.is-3.box
+    = form_with scope: :session, url: sign_in_url, local: true do |f|
+      %p.title Sign in
+
+      - if alert
+        %p.notification.is-danger= alert
+        - is_danger = 'is-danger'
+
+      .field
+        = f.label :email, class: :label
+        .control
+          = f.email_field :email, class:       "input #{ is_danger }", |
+                                  autofocus:    true,                  |
+                                  placeholder: 'email@example.com'     |
+
+      .field
+        = f.label :password, class: :label
+        .control
+          = f.password_field :password, class:       "input #{ is_danger }", |
+                                        placeholder: "\u2022" * 6            |
+
+      .field
+        .contol
+          = f.submit 'Log in', class: 'button is-link'
