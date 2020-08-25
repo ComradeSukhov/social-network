@@ -1,24 +1,12 @@
-# README
+# VK Clone
+Это веб приложение является копией ВК, цель которого воспроизвести функционал социальной сети на Rails как можно ближе к оригиналу, при этом не копируя графический дизайн
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Использовано
+* Ruby v2.7.1
+* Rails v6.0.x
+* Postgresql
+* Bulma CSS Framework v0.9.0
+* HAML v2.0
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Прогресс разработки
+На данным момент написана только простая аутентификация через session. Вошедшие на сайт пользователи не имеют доступа к формам входа и регистрации - не вощедшие на сайт пользователи не имеют доступ только к ним
