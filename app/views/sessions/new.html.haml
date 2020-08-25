@@ -1,6 +1,6 @@
 .columns.is-centered
   .column.is-3.box
-    = form_with scope: :session, url: sign_in_url, local: true do |f|
+    = form_with url: login_url, local: true do |f|
       %p.title Sign in
 
       - if alert

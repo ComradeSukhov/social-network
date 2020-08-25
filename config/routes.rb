@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :users
-  get    'sign_up',  to: 'users#new'
-  post   'sign_up',  to: 'users#create'
+  get    'signup', to: 'users#new'
+  post   'signup', to: 'users#create'
 
-  get    'sign_in',  to: 'sessions#new'
-  post   'sign_in',  to: 'sessions#create'
-  delete 'sign_out', to: 'sessions#destroy'
+  get    'login',  to: 'sessions#new'
+  post   'login',  to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
 end

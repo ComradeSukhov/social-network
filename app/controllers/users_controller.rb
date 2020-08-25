@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      session[:user_id] = @user.id
+      helpers.log_in(@user)
       redirect_to root_url, notice: 'You signed up successfully'
     else
       flash.now[:alert] = 'Sorry, try again!'
@@ -14,8 +14,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 end
 
 private

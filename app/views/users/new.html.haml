@@ -1,6 +1,6 @@
 .columns.is-centered
   .column.is-3.box
-    = form_with model: @user, url: sign_up_url, local: true do |f|
+    = form_with model: @user, url: signup_url, local: true do |f|
       %p.title Sign up
 
       - if alert
@@ -15,8 +15,8 @@
         = f.label :first_name, class: :label
         .control
           = f.text_field :first_name, class:       "input #{ fn_danger }", |
-                                      autofocus:    true,                  |
-                                      placeholder: 'Anton'                 |
+                                      placeholder: 'Anton',                |
+                                      autofocus:    true                   |
           - @user.errors.full_messages_for(:first_name).each do |msg|
             %p.help.is-danger= msg
 
@@ -32,7 +32,6 @@
         = f.label :email, class: :label
         .control
           = f.email_field :email, class:       "input #{ email_danger }", |
-                                  autofocus:    true,                     |
                                   placeholder: 'cambridge@example.com'    |
           - @user.errors.full_messages_for(:email).each do |msg|
             %p.help.is-danger= msg
