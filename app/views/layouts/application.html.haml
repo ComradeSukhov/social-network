@@ -1,15 +1,24 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title VkClone
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application', media: 'all',                    |
+                                        'data-turbolinks-track': 'reload' |
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     %nav.navbar.is-black.px-6.mb-4
       .navbar-brend
-        %p.navbar-item.title.has-text-white-bis VkClone
+        = link_to 'VkClone', root_url,                                      |
+                   class: 'navbar-item button is-radiusless title is-black' |
+      .navbar-menu
+        .navbar-end
+          .buttons
+            - if logged_in?
+              = link_to 'Logout', logout_url, method: :delete,          |
+                         class: 'navbar-item button is-radiusless       |
+                                 is-black is-inverted is-outlined'      |
     .hero.px-6
       = yield

@@ -41,6 +41,7 @@ group :development, :test do
   # Make life esier
   gem 'hirb', '~> 0.7.3'
   gem 'better_errors', '~> 2.7', '>= 2.7.1'
+  gem 'binding_of_caller', '~> 0.8.0'
   # Testing
   gem 'rspec-rails', '~> 4.0', '>= 4.0.1'
   gem 'factory_bot_rails', '~> 6.1'

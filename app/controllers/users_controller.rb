@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :redirect_if_not_logged_in, except: [:new, :create]
+  before_action :redirect_if_logged_in,     only:   [:new, :create]
+
   def new
     @user = User.new
   end
@@ -6,8 +9,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      helpers.log_in(@user)
-      redirect_to user_url(helpers.current_user[:id]),
+      log_in(@user)
+      redirect_to user_url(current_user[:id]),
         notice: 'You signed up successfully'
     else
       flash.now[:alert] = 'Sorry, try again!'

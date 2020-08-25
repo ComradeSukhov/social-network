@@ -1,8 +1,6 @@
 module SessionsHelper
   def current_user
-    if session[:user_id]
-      @current_user ||= User.find(session[:user_id])
-    end
+    @current_user ||= User.find_by_id(session[:user_id])
   end
 
   def current_user?(user)
@@ -13,12 +11,20 @@ module SessionsHelper
     session[:user_id] = user.id
   end
 
-  def logged_in?
-    !current_user.nil?
-  end
+    def logged_in?
+      current_user.present?
+    end
 
   def log_out
-    session[:user_id].delete
+    session.delete(:user_id)
     @current_user = nil
+  end
+
+  def redirect_if_not_logged_in
+    redirect_back(fallback_location: root_url) unless logged_in?
+  end
+
+  def redirect_if_logged_in
+    redirect_back(fallback_location: user_url(current_user[:id])) if logged_in?
   end
 end
