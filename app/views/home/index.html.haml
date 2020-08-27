@@ -1,5 +1,4 @@
-.columns.is-centered
-  .column.is-3.box.mx-6
-    = render 'sessions/form'
-  .column.is-3.box.mx-6
-    = render 'users/form'
+- if notice
+  %p.notification.is-primary= notice
+- if alert
+  %p.notification.is-danger= alert
