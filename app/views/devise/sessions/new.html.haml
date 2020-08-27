@@ -1,5 +1,5 @@
 .columns.is-centered
-  .column.is-3.box
+  .column.is-3.box.limit-min-max
     %p.title Log in
     = form_for(resource, as: resource_name,                      |
                         url: session_path(resource_name)) do |f| |
