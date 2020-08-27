@@ -35,5 +35,5 @@
 yarn-debug.log*
 .yarn-integrity
 
-# Temporary ignore folder with tests
-/spec
+# Simplecov gem' folder
+/coverage

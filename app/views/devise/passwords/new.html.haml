@@ -1,0 +1,26 @@
+.columns.is-centered
+  .column.is-3.box.limit-min-max
+    %p.title Forgot your password?
+    = form_for(resource, as: resource_name,                |
+                        url: password_path(resource_name), |
+                       html: { method: :post }) do |f|     |
+
+      - if resource.errors.any?
+        %p.notification.is-danger Sorry, try again!
+        - is_danger = 'is-danger'
+
+      .field
+        = f.label :email, class: :label
+        .control
+          = f.email_field :email, class:        "input #{ is_danger }", |
+                                  placeholder:  'email@example.com',    |
+                                  autocomplete: 'email',                |
+                                  autofocus:     true                   |
+          - resource.errors.full_messages_for(:email).each do |msg|
+            %p.help.is-danger= msg
+      .field
+        .contol.has-text-centered
+          = f.submit "Reset password",                               |
+                      class: 'button is-warning is-rounded width-75' |
+
+    = render "devise/shared/links"

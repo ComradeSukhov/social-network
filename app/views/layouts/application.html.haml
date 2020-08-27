@@ -16,9 +16,17 @@
       .navbar-menu
         .navbar-end
           .buttons
-            - if logged_in?
-              = link_to 'Logout', logout_url, method: :delete,          |
-                         class: 'navbar-item button is-radiusless       |
-                                 is-black is-inverted is-outlined'      |
+            - if user_signed_in?
+              = link_to 'Sign out', destroy_user_session_url, method: :delete, |
+                         class: 'navbar-item button is-radiusless              |
+                                 is-black is-inverted is-outlined'             |
+            - else
+              = link_to 'Log in', new_user_session_url,            |
+                         class: 'navbar-item button is-radiusless  |
+                                 is-black is-inverted is-outlined' |
+              \
+              = link_to 'Sign up', new_user_registration_url,      |
+                         class: 'navbar-item button is-radiusless  |
+                                 is-black is-inverted is-outlined' |
     .hero.px-6
       = yield
