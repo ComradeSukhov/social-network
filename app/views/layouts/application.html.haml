@@ -10,10 +10,16 @@
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     %nav.navbar.is-black.px-6.mb-4
-      .navbar-brend
-        = link_to 'VkClone', root_url,                                      |
-                   class: 'navbar-item button is-radiusless title is-black' |
-      .navbar-menu
+      .navbar-brand
+        .navbar-item
+          = link_to 'VkClone', root_url,                          |
+                     class: 'button is-radiusless title is-black' |
+        %a.navbar-burger.burger{ 'data-target' => 'navMenu' }
+          %span
+          %span
+          %span
+
+      .navbar-menu#navMenu
         .navbar-end
           .buttons
             - if user_signed_in?
@@ -28,5 +34,6 @@
               = link_to 'Sign up', new_user_registration_url,      |
                          class: 'navbar-item button is-radiusless  |
                                  is-black is-inverted is-outlined' |
+
     .hero.px-6
       = yield
