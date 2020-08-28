@@ -1,4 +1,4 @@
-class WelcomePageController < ApplicationController
+class WelcomePagesController < ApplicationController
   before_action :allow_only_not_signed_in_users
 
   def show; end
