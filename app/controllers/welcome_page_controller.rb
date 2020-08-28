@@ -1,7 +1,7 @@
-class HomeController < ApplicationController
+class WelcomePageController < ApplicationController
   before_action :allow_only_not_signed_in_users
 
-  def index; end
+  def show; end
 end
 
 private

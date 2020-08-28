@@ -37,3 +37,6 @@ yarn-debug.log*
 
 # Simplecov gem' folder
 /coverage
+
+# Unused files
+/spec/support/controller_macros.rb
