@@ -1,0 +1,9 @@
+=form_with model: @post, local: true do |f|
+  = f.hidden_field :wall_id
+  = f.hidden_field :user_id
+  .field
+    .control
+      = f.text_area :body, class: 'textarea is-small'
+  .field
+    .control
+      = f.submit 'Post', class: 'button is-pulled-right is-info width-20'

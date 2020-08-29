@@ -12,5 +12,10 @@ class User < ApplicationRecord
                         length: { maximum: 255 },
                         format: { with: VALID_EMAIL_REGEX }
 
-  before_save { self.email = email.downcase }
+  before_save  { self.email = email.downcase }
+  after_create { self.create_wall }
+
+  has_one :wall
+  has_many :posts
+  has_many :comments
 end
