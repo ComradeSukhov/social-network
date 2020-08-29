@@ -3,7 +3,6 @@
 %table
   %thead
     %tr
-      %th Title
       %th Body
       %th
       %th
@@ -12,7 +11,6 @@
   %tbody
     - @posts.each do |post|
       %tr
-        %td= post.title
         %td= post.body
         %td= link_to 'Show', post
         %td= link_to 'Edit', edit_post_path(post)

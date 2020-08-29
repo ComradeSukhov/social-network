@@ -1,0 +1,5 @@
+= form_with model: [commentable, Comment.new], local: true do |f|
+  .control
+    = f.text_area :body, class: 'textarea', placeholder: 'Add a comment'
+  .control
+    = f.submit 'Submit', class: 'button'
