@@ -4,6 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_one :wall
+  has_many :posts
+  has_many :comments
+
   validates :first_name, :last_name, presence: true, length: { maximum: 25 }
 
   VALID_EMAIL_REGEX = /\A[\w+\-\.]+@[a-z\d\-\.]+\.[a-z]+\z/i
@@ -14,8 +18,4 @@ class User < ApplicationRecord
 
   before_save  { self.email = email.downcase }
   after_create { self.create_wall }
-
-  has_one :wall
-  has_many :posts
-  has_many :comments
 end

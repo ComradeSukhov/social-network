@@ -2,9 +2,17 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    # A user can post not only on its own wall
-    #   but on any other user's wall too
-    @post = current_user.posts.new
-    @post.wall_id = Wall.where(user_id: params[:id]).ids[0]
+    @user = User.find(params[:id])
+    @wall = @user.wall
+    @name = "#{ @user.first_name } #{ @user.last_name }"
+    if flash[:post]
+      # If a new post have failed validations and have been redirected here
+      #   flash contains all neccessary information about that post
+      @post   = Post.new(flash[:post])
+      @errors = flash[:errors]
+    else
+      @post = current_user.posts.new
+      @post.wall_id = @wall.id
+    end
   end
 end

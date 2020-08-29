@@ -1,9 +1,19 @@
 =form_with model: @post, local: true do |f|
   = f.hidden_field :wall_id
   = f.hidden_field :user_id
+
+  - unless @errors.nil?
+    - if @errors['body']
+      - body_danger = 'is-danger'
+    - else
+      %p.notification.is-danger Something went wrong... Try to refresh the psge
+
   .field
     .control
-      = f.text_area :body, class: 'textarea is-small'
+      = f.text_area :body, class: "textarea is-small #{ body_danger }"
+      - if body_danger
+        - @errors['body'].each do |msg|
+          %p.help.is-danger= "Post #{ msg }"
   .field
     .control
       = f.submit 'Post', class: 'button is-pulled-right is-info width-20'

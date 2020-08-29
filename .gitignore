@@ -40,3 +40,6 @@ yarn-debug.log*
 
 # Unused files
 /spec/support/controller_macros.rb
+
+# Reminder
+TODO.md

@@ -10,5 +10,6 @@
     .tile.is-child.box
   .tile.is-7.is-vertical.is-parent
     .tile.is-child.box
+      %p.title.is-3= @name
     .tile.is-child.box= render 'posts/form_on_wall'
-    .tile.is-child.box
+    = render @wall.posts.reverse
