@@ -1,9 +1,6 @@
 .tile.is-child.box
-  - author_name = "#{ post.user.first_name } #{ post.user.last_name }"
-  %p.title.is-5= link_to author_name, user_url(post.user.id)
-
-  - year = '%Y ' if post.created_at.year != Time.current.year
-  %p.subtitle.is-6= post.created_at.strftime("%d %b #{ year }at %H:%M")
+  %p.title.is-5= link_to full_name(post.user), user_url(post.user)
+  %p.subtitle.is-6.grey= creation_time(post)
 
   .content= post.body
 

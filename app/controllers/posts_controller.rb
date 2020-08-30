@@ -1,10 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show]
 
-  def show
-    @author_name = "#{ @post.user.first_name } #{ @post.user.last_name }"
-    @year        = @post.created_at.year != Time.current.year ? '%Y ' : ''
-  end
+  def show; end
 
   def create
     @post = Post.new(post_params)
