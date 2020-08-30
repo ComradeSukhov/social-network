@@ -8,8 +8,7 @@ class UsersController < ApplicationController
     if flash[:post]
       # If a new post have failed validations and have been redirected here
       #   flash contains all neccessary information about that post
-      @post   = Post.new(flash[:post])
-      @errors = flash[:errors]
+      @post = Post.new(flash[:post])
     else
       @post = current_user.posts.new
       @post.wall_id = @wall.id

@@ -7,7 +7,7 @@
 
   .content= post.body
 
-  %a.button{ href: post_path(post, author_name: author_name, year: year) }
+  %a.button{ href: post_path(post) }
     %span.icon.is-small
       %i.fa.fa-comment-o
     - comment_quantity = post.comments.count
