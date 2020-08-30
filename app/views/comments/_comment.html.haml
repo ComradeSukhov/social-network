@@ -1,0 +1,4 @@
+.tile.is-child
+  %p.weight-semibold= link_to full_name(comment.user), user_path(comment.user)
+  %p= simple_format comment.body
+  %p.grey= creation_time(comment)

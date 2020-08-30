@@ -1,0 +1,18 @@
+=form_with model: @post, local: true do |f|
+  = f.hidden_field :wall_id
+  = f.hidden_field :user_id
+
+  - if alert
+    - body_danger = 'is-danger'
+    .notification.is-danger
+      - flash[:alert].each do |msg|
+        %p= msg
+
+  .field
+    .control
+      = f.text_area :body,       class: "textarea is-small #{ body_danger }", |
+                           placeholder: 'Post something!'                     |
+
+  .field
+    .control
+      = f.submit 'Post', class: 'button is-pulled-left is-info width-20'

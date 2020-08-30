@@ -1,0 +1,16 @@
+= form_with model: [commentable, Comment.new], local: true do |f|
+
+  - if alert
+    - body_danger = 'is-danger'
+    .notification.is-danger
+      - flash[:alert].each do |msg|
+        %p= msg
+
+  .field
+    .control
+      = f.text_area :body,       class: "textarea is-small #{ body_danger }", |
+                           placeholder: 'Add a comment'                       |
+
+  .field
+    .control
+      = f.submit 'Post', class: 'button is-pulled-left is-info width-20'

@@ -1,0 +1,13 @@
+.tile.is-ancestor
+  .tile.is-vertical
+    .tile.is-parent.is-vertical
+      .tile.is-child.box
+        %p.title.is-5= link_to full_name(@post.user), user_url(@post.user)
+        %p.subtitle.is-6.grey= creation_time(@post)
+        .content= @post.body
+
+      .tile.is-child.box
+        = render partial: 'comments/form', locals: { commentable: @post }
+
+    .tile.is-parent.is-vertical.box
+      = render @post.comments
