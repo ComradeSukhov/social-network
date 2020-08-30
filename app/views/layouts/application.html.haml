@@ -7,6 +7,7 @@
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all',                    |
                                         'data-turbolinks-track': 'reload' |
+    = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     %nav.navbar.is-black.px-6.mb-4
@@ -36,4 +37,15 @@
                                  is-black is-inverted is-outlined' |
 
     .hero.px-6
-      = yield
+      .columns{ style: 'justify-content: center'}
+        - if user_signed_in?
+          .column.is-1
+            %aside.menu
+              %ul.menu-list
+                %li
+                  %a{ href: root_path }
+                    %span.icon
+                      %i.fa.fa-home
+                    %span My page
+        .column{ style: 'max-width: 1000px' }
+          = yield

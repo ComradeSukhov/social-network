@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resource  :welcome_page, only: [:show]
   resources :users,        only: [:show]
 
-  resources :posts do
-    resources :comments, module: :posts
+  resources :posts, only: [:show, :create] do
+    resources :comments, only: [:create], module: :posts
   end
 end

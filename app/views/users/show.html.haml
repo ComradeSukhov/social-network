@@ -1,15 +1,7 @@
--# - if notice
--#   %p.notification.is-primary= notice
--# - if alert
--#   %p.notification.is-danger= alert
-
-.tile.is-ancestor
-  .tile.is-parent
-    .tile.is-child.box
-  .tile.is-parent
-    .tile.is-child.box
-  .tile.is-7.is-vertical.is-parent
-    .tile.is-child.box
-      %p.title.is-3= @name
-    .tile.is-child.box= render 'posts/form_on_wall'
-    = render @wall.posts.reverse
+.columns
+  .column.tile.is-ancestor
+    .tile.is-parent.is-vertical
+      .tile.is-child.box
+        %p.title.is-3= @name
+      .tile.is-child.box= render 'posts/form'
+      = render @wall.posts.reverse

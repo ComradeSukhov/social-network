@@ -1,9 +1,12 @@
--# %p#notice= notice
-.content= @post.body
+.tile.is-ancestor
+  .tile.is-parent.is-vertical
+    .tile.is-child.box
+      %p.title.is-5= link_to @author_name, user_url(@post.user.id)
+      %p.subtitle.is-6= @post.created_at.strftime("%d %b #{ @year }at %H:%M")
+      .content= @post.body
 
-= link_to 'Edit', edit_post_path(@post)
-= link_to 'Back', posts_path
+    .tile.is-child.box
+      = render partial: 'comments/form', locals: { commentable: @post }
 
-%p.title.is-4
-= render partial: 'comments/form', locals: { commentable: @post }
-= render @post.comments
+    .tile.is-child.box
+      = render @post.comments

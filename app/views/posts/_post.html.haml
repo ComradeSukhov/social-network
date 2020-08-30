@@ -1,8 +1,15 @@
 .tile.is-child.box
-  - author = "#{ post.user.first_name } #{ post.user.last_name }"
-  %p.title.is-5= link_to author, user_url(post.user.id)
+  - author_name = "#{ post.user.first_name } #{ post.user.last_name }"
+  %p.title.is-5= link_to author_name, user_url(post.user.id)
 
   - year = '%Y ' if post.created_at.year != Time.current.year
   %p.subtitle.is-6= post.created_at.strftime("%d %b #{ year }at %H:%M")
 
   .content= post.body
+
+  %a.button{ href: post_path(post, author_name: author_name, year: year) }
+    %span.icon.is-small
+      %i.fa.fa-comment-o
+    - comment_quantity = post.comments.count
+    - if comment_quantity.positive?
+      %span= pluralize(comment_quantity, 'comment')
