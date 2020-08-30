@@ -10,4 +10,4 @@
         = render partial: 'comments/form', locals: { commentable: @post }
 
     .tile.is-parent.is-vertical.box
-      = render @post.comments
+      = render @post.comments.where(parent_id: nil)

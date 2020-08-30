@@ -2,3 +2,14 @@
   %p.weight-semibold= link_to full_name(comment.user), user_path(comment.user)
   %p= simple_format comment.body
   %p.grey= creation_time(comment)
+
+  %div{ 'data-controller' => 'reply' }
+    = link_to 'Reply', '#', data: { action: 'click->reply#toggle' }
+    = render partial:  'comments/form',                    |
+              locals: { commentable:  comment.commentable, |
+                          parent_id:  comment.id,          |
+                              class: 'is-hidden',          |
+                             target: 'reply.form' }        |
+
+  .tile.is-parent.is-vertical
+    = render comment.comments

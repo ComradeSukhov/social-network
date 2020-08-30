@@ -1,4 +1,10 @@
-= form_with model: [commentable, Comment.new], local: true do |f|
+= form_with model: [commentable, Comment.new],                  |
+            local:  true,                                       |
+             html:  { class:   local_assigns[:class],           |
+                       data: { target: local_assigns[:target] } |
+                    } do |f|                                    |
+
+  = f.hidden_field :parent_id, value: local_assigns[:parent_id]
 
   - if alert
     - body_danger = 'is-danger'
