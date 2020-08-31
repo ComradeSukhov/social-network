@@ -13,6 +13,12 @@ class CommentsController < ApplicationController
     end
   end
 
+  def destroy
+    @comment = @commentable.comments.find(params[:id])
+    @comment.destroy
+    redirect_to @commentable
+  end
+
   private
     def comment_params
       params.require(:comment).permit(:body, :parent_id)

@@ -5,6 +5,13 @@
 
   %div{ 'data-controller' => 'reply' }
     = link_to 'Reply', '#', data: { action: 'click->reply#toggle' }
+    -# This feature isn't final for an author of the post
+    -#  or an owner of the wall should be able to delete comments too
+    - if comment.user == current_user
+      = link_to 'Delete', [comment.commentable, comment],       |
+                           method: :delete,                     |
+                             data: { confirm: 'Are you sure?' } |
+    \
     = render partial:  'comments/form',                    |
               locals: { commentable:  comment.commentable, |
                           parent_id:  comment.id,          |
