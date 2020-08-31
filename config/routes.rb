@@ -7,6 +7,6 @@ Rails.application.routes.draw do
   resources :users,        only: [:show]
 
   resources :posts, only: [:show, :create] do
-    resources :comments, only: [:create], module: :posts
+    resources :comments, only: [:create, :destroy], module: :posts
   end
 end
