@@ -17,9 +17,9 @@
     \
     = render partial:  'comments/form',                                        |
       locals: { commentable: comment.commentable,                              |
-                parent_id:  reply_to_comment_id(comment, nesting, max_nesting),|
-                    class: 'is-hidden',                                        |
-                   target: 'reply.form' }                                      |
+                parent_id:  reply_to_comment_id(comment, nesting, max_nesting),
+                    class: 'is-hidden',
+                   target: 'reply.form' }
 
   .tile.is-parent.is-vertical
     = render comment.comments,     nesting: nesting + 1,                |
