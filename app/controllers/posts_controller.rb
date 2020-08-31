@@ -1,7 +1,16 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show]
 
-  def show; end
+  def show
+    if params[:comment]
+      @comments = @post.comments.where(id: params[:comment])
+    else
+      # Uncomment the part of code in the line below to enable limiting of the
+      #   number of threads per page. Also uncomment some code on the
+      #   views/show.html.hanl
+      @comments = @post.comments.where(parent_id: nil)#.page(params[:page]).per(5)
+    end
+  end
 
   def create
     @post = Post.new(post_params)

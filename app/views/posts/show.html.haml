@@ -10,4 +10,16 @@
         = render partial: 'comments/form', locals: { commentable: @post }
 
     .tile.is-parent.is-vertical.box
-      = render @post.comments.where(parent_id: nil)
+      - if params[:comment]
+        .tile.is-child
+          %span Viewing single comment thread.
+          = link_to ' View all comments', url_for()
+      = render @comments, continue_thread: 5
+
+      -# Uncomment the code below to enable limiting of the
+        -# number of threads per page. Also uncomment a part of code in the
+        -# post_controller.rb
+      -# uncomment this --->>>
+      -# .tile.is-child
+      -#   = paginate @comments
+      -# <<<--- uncomment this
