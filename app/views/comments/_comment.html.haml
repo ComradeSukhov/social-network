@@ -1,3 +1,6 @@
+- nesting     = local_assigns.fetch(:nesting, 1)
+- max_nesting = local_assigns[:max_nesting]
+
 .tile.is-child
   %p.weight-semibold= link_to full_name(comment.user), user_path(comment.user)
   %p= simple_format comment.body
@@ -12,11 +15,12 @@
                            method: :delete,                     |
                              data: { confirm: 'Are you sure?' } |
     \
-    = render partial:  'comments/form',                    |
-              locals: { commentable:  comment.commentable, |
-                          parent_id:  comment.id,          |
-                              class: 'is-hidden',          |
-                             target: 'reply.form' }        |
+    = render partial:  'comments/form',                                        |
+      locals: { commentable: comment.commentable,                              |
+                parent_id:  reply_to_comment_id(comment, nesting, max_nesting),|
+                    class: 'is-hidden',                                        |
+                   target: 'reply.form' }                                      |
 
   .tile.is-parent.is-vertical
-    = render comment.comments
+    = render comment.comments,     nesting: nesting + 1,                |
+                               max_nesting: local_assigns[:max_nesting] |
