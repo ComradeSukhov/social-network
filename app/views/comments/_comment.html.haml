@@ -1,11 +1,16 @@
-- nesting     = local_assigns.fetch(:nesting, 1)
-- max_nesting = local_assigns[:max_nesting]
+- nesting         = local_assigns.fetch(:nesting, 1)
+- max_nesting     = local_assigns[:max_nesting]
+- continue_thread = local_assigns[:continue_thread]
 
-.tile.is-child
+.tile.is-child{ id: dom_id(comment) }
   - if comment.deleted?
     %p.weight-semibold [deleted]
   - else
     %p.weight-semibold= link_to full_name(comment.user), user_path(comment.user)
+
+  %span= link_to 'Link to this comment', url_for(comment: comment.id,
+                                                  anchor: dom_id(comment))
+
   %p= simple_format comment.body
   %p.grey= creation_time(comment)
 
@@ -22,6 +27,10 @@
                     class: 'is-hidden',
                    target: 'reply.form' }
 
-  .tile.is-parent.is-vertical
-    = render comment.comments,     nesting: nesting + 1,                |
-                               max_nesting: local_assigns[:max_nesting] |
+  .tile.is-parent.is-vertical{ id: "#{dom_id(comment)}_comments" }
+    - if continue_thread.present? && nesting >= continue_thread
+      %span= link_to 'Continue this thread', url_for(comment: comment.id, anchor: dom_id(comment))
+    - else
+      = render comment.comments,         nesting: nesting + 1,                 |
+                                     max_nesting: local_assigns[:max_nesting], |
+                                 continue_thread: continue_thread              |
