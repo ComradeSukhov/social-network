@@ -4,7 +4,7 @@
 
       -# Block with a post and additional indormaiton
       .tile.is-child.box
-        %p.title.is-5= link_to full_name(@post.user), user_url(@post.user)
+        %p.title.is-5= link_to full_name(@post.author), user_url(@post.author)
         %p.subtitle.is-6.grey= creation_time(@post)
         %p.content= @post.body
 

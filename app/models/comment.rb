@@ -1,5 +1,5 @@
 class Comment < ApplicationRecord
-  belongs_to :user,        optional: true
+  belongs_to :author,      optional: true, class_name: :User
   belongs_to :commentable, polymorphic: true
   belongs_to :parent,      optional: true, class_name:'Comment'
 
@@ -13,10 +13,10 @@ class Comment < ApplicationRecord
   # Clear some comment' fields (using in comments#destroy)
   #   because a comment must not be completely removed from a thread
   def clear_fields
-    update(user: nil, body: '[deleted]')
+    update(author: nil, body: '[deleted]')
   end
 
   def deleted?
-    user.nil?
+    author.nil?
   end
 end
