@@ -34,8 +34,6 @@ gem 'devise', '~> 4.7', '>= 4.7.2'
 gem 'haml-rails', '~> 2.0', '>= 2.0.1'
 # Use Bulma CSS framework
 gem 'bulma-rails', '~> 0.9.0'
-# For comments pagination
-gem 'kaminari', '~> 1.2', '>= 1.2.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

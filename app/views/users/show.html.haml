@@ -2,11 +2,11 @@
   .column.tile.is-ancestor
     .tile.is-parent.is-vertical
 
-      -# A block with user's name and additional information about that user
+      -# Block with a user' name and additional information about that user
       .tile.is-child.box
         %p.title.is-3= @name
 
-      -# A block with only form for posting
+      -# Block with only form for posting
       .tile.is-child.box= render 'posts/form'
 
       -# Several blocks. Each one contains a single post

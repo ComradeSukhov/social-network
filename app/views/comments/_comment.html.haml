@@ -22,13 +22,12 @@
       %p= simple_format comment.body
       %p.grey= creation_time(comment)
 
-      -# Block of the reply-to-comment form. Powered by stimulus js
+      -# Block of the reply-to-comment form. Required by stimulus js
       %div{ 'data-controller' => 'reply' }
         -# Button that toggles visibility of the form
         = link_to 'Reply', '#',  data: { action: 'click->reply#toggle' }, |
                                 class:  'button is-small'                 |
         -# target: the pointer for stimulus to the form
-        -# class:  this one would be toggled
         = render 'comments/form',                                  |
                   commentable:  comment.commentable,               |
                        target: 'reply.form',                       |
@@ -44,10 +43,15 @@
                                data: { confirm: 'Are you sure?' }, |
                               class:  'button is-small'            |
 
+  -# Block that contain children comments of the comment above
   .tile.is-parent.is-vertical{ id: "#{ dom_id(comment) }_comments" }
-    - if nesting_limit.present? && nesting_depth >= nesting_limit
-      %span= link_to 'Continue this thread',                                |
-               url_for(parent_comment: comment.id, anchor: dom_id(comment)) |
+
+    -# If nesting depth isn't set or has reached its limit
+    -#   move subsequent comments to the next page
+    -# Otherwise keep nesting
+    - if nesting_limit.present? && (nesting_depth >= nesting_limit)
+      = link_to 'Continue this thread',                                       |
+                 url_for(parent_comment: comment.id, anchor: dom_id(comment)) |
     - else
       = render comment.comments, nesting_limit: nesting_limit,    |
                                  nesting_depth: nesting_depth + 1 |
