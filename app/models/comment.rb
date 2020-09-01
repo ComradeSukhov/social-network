@@ -10,9 +10,8 @@ class Comment < ApplicationRecord
     Comment.where(commentable: commentable, parent_id: id)
   end
 
-  # Comments must not dissappear from threads
-  #   therefore comments must not be destroyed
-  #   but must have some fields cleared
+  # Clear some comment' fields (using in comments#destroy)
+  #   because a comment must not be completely removed from a thread
   def clear_fields
     update(user: nil, body: '[deleted]')
   end
