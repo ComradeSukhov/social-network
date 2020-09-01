@@ -1,3 +1,5 @@
+-# Only :model is requred when the form is being rendered as reply-to-post
+-# Other stuff is requred when the form is being rendered as reply-to-comment
 = form_with model: [commentable, Comment.new],                  |
             local:  true,                                       |
              html:  { class:   local_assigns[:class],           |
@@ -6,17 +8,11 @@
 
   = f.hidden_field :parent_id, value: local_assigns[:parent_id]
 
-  - if alert
-    - body_danger = 'is-danger'
-    .notification.is-danger
-      - flash[:alert].each do |msg|
-        %p= msg
+  .field
+    .control
+      = f.text_area :body,       class: 'textarea is-small', |
+                           placeholder: 'Add a comment'      |
 
   .field
     .control
-      = f.text_area :body,       class: "textarea is-small #{ body_danger }", |
-                           placeholder: 'Add a comment'                       |
-
-  .field
-    .control
-      = f.submit 'Post', class: 'button is-pulled-left is-info width-20'
+      = f.submit 'Comment', class: 'button is-pulled-left is-info width-20'

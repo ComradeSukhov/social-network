@@ -1,24 +1,42 @@
 .tile.is-ancestor
   .tile.is-vertical
     .tile.is-parent.is-vertical
+
+      -# A block with a post and additional indormaiton
       .tile.is-child.box
         %p.title.is-5= link_to full_name(@post.user), user_url(@post.user)
         %p.subtitle.is-6.grey= creation_time(@post)
         .content= @post.body
 
+      -# A block with only form for commenting
       .tile.is-child.box
-        = render partial: 'comments/form', locals: { commentable: @post }
+        = render 'comments/form', commentable: @post
+
+      -# A block that displays errors if comment' form failed validation
+      - if flash[:failed_comment_errors]
+        .tile.is-child.notification.is-danger
+          %p= "Sorry, #{ pluralize(flash[:failed_comment_errors].size,
+                'error') } prohibited your comment from being posted"
+          - flash[:failed_comment_errors].each do |msg|
+            %p= "\u2022".encode('utf-8') + ' ' + msg # \u2022 aka bullet
 
     .tile.is-parent.is-vertical.box
-      - if params[:comment]
+
+      -# If a user is looking at a particular comment thread
+      -#   then a page is containing the link to the original post' page
+      - if params[:parent_comment]
         .tile.is-child
           %span Viewing single comment thread.
           = link_to ' View all comments', url_for()
-      = render @comments, continue_thread: 5
 
+      -# Several blocks of comment threads.
+      -#   Each one contains several comment threads with the same parent (root)
+      = render @comments, nesting_limit: COMMENTS_IN_ONE_THREAD_PER_PAGE
+
+      -# ====================
       -# Uncomment the code below to enable limiting of the
-        -# number of threads per page. Also uncomment a part of code in the
-        -# post_controller.rb
+      -#   number of threads per page. Also uncomment a part of code in the
+      -#   post_controller#show
       -# uncomment this --->>>
       -# .tile.is-child
       -#   = paginate @comments

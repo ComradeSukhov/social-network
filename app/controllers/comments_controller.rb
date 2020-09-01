@@ -2,15 +2,20 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
 
   def create
+    # @commentable was defined at controller that inherits this class
     @comment      = @commentable.comments.new(comment_params)
     @comment.user = current_user
 
-    if @comment.save
-      redirect_to @commentable
-    else
-      flash[:alert]  = @comment.errors.full_messages
-      redirect_back(fallback_location: root_path)
+    # In spite of saving' success or failure a user must be redirected back to
+    #   the page where he tries to comment
+    # In case of failure flash would be used for transfer all neccessary
+    #   information to the controller, that renders comment' form
+
+    unless @comment.save
+      flash[:failed_comment_errors]  = @comment.errors.full_messages
     end
+
+    redirect_to @commentable
   end
 
   def destroy

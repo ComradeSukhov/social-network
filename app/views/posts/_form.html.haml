@@ -2,16 +2,16 @@
   = f.hidden_field :wall_id
   = f.hidden_field :user_id
 
-  - if alert
-    - body_danger = 'is-danger'
+  - if flash[:failed_post_errors]
+    - input_border = 'is-danger'
     .notification.is-danger
-      - flash[:alert].each do |msg|
+      - flash[:failed_post_errors].each do |msg|
         %p= msg
 
   .field
     .control
-      = f.text_area :body,       class: "textarea is-small #{ body_danger }", |
-                           placeholder: 'Post something!'                     |
+      = f.text_area :body,       class: "textarea is-small #{ input_border }", |
+                           placeholder: 'Post something!'                      |
 
   .field
     .control
