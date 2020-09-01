@@ -1,36 +1,57 @@
-- nesting         = local_assigns.fetch(:nesting, 1)
-- max_nesting     = local_assigns[:max_nesting]
-- continue_thread = local_assigns[:continue_thread]
+-# Current comment nesting depth level
+- nesting_depth = local_assigns.fetch(:nesting_depth, 1)
+-# Amount of comments of one thread that available on one page.
+-#   Other comments of the same thread will be moved to a separate page
+- nesting_limit = local_assigns[:nesting_limit]
 
+-# Give each thread block an individual id in order to be able anchor any of it
 .tile.is-child{ id: dom_id(comment) }
-  - if comment.deleted?
-    %p.weight-semibold [deleted]
-  - else
-    %p.weight-semibold= link_to full_name(comment.user), user_path(comment.user)
 
-  %span= link_to 'Link to this comment', url_for(comment: comment.id,
-                                                  anchor: dom_id(comment))
+  -# Block of a single comment
+  .message
+    .message-body
+      - if comment.deleted?
+        %span.weight-semibold [deleted]
+      - else
+        %span.weight-semibold= link_to full_name(comment.user), |
+                                       user_path(comment.user)  |
 
-  %p= simple_format comment.body
-  %p.grey= creation_time(comment)
+      %span= link_to '[link to this comment]', url_for(comment: comment.id,
+                                                        anchor: dom_id(comment))
 
-  %div{ 'data-controller' => 'reply' }
-    = link_to 'Reply', '#', data: { action: 'click->reply#toggle' }
-    - if comment.user == current_user
-      = link_to 'Delete', [comment.commentable, comment],       |
-                           method: :delete,                     |
-                             data: { confirm: 'Are you sure?' } |
-    \
-    = render partial:  'comments/form',                                        |
-      locals: { commentable: comment.commentable,                              |
-                parent_id:  reply_to_comment_id(comment, nesting, max_nesting),
-                    class: 'is-hidden',
-                   target: 'reply.form' }
+      %p= simple_format comment.body
+      %p.grey= creation_time(comment)
 
-  .tile.is-parent.is-vertical{ id: "#{dom_id(comment)}_comments" }
-    - if continue_thread.present? && nesting >= continue_thread
-      %span= link_to 'Continue this thread', url_for(comment: comment.id, anchor: dom_id(comment))
+      -# Block of the reply-to-comment form. Required by stimulus js
+      %div{ 'data-controller' => 'reply' }
+        -# Button that toggles visibility of the form
+        = link_to 'Reply', '#',  data: { action: 'click->reply#toggle' }, |
+                                class:  'button is-small'                 |
+        -# target: the pointer for stimulus to the form
+        = render 'comments/form',                                  |
+                  commentable:  comment.commentable,               |
+                       target: 'reply.form',                       |
+                        class: 'is-hidden',                        |
+                    parent_id:  reply_to_comment_id(comment,       |
+                                                    nesting_depth, |
+                                                    nesting_limit) |
+
+      -# Button to delete comment
+      - if comment.user == current_user
+        = link_to 'Delete', [comment.commentable, comment],        |
+                             method:  :delete,                     |
+                               data: { confirm: 'Are you sure?' }, |
+                              class:  'button is-small'            |
+
+  -# Block that contain children comments of the comment above
+  .tile.is-parent.is-vertical{ id: "#{ dom_id(comment) }_comments" }
+
+    -# If nesting depth isn't set or has reached its limit
+    -#   move subsequent comments to the next page
+    -# Otherwise keep nesting
+    - if nesting_limit.present? && (nesting_depth >= nesting_limit)
+      = link_to 'Continue this thread',                                       |
+                 url_for(parent_comment: comment.id, anchor: dom_id(comment)) |
     - else
-      = render comment.comments,         nesting: nesting + 1,                 |
-                                     max_nesting: local_assigns[:max_nesting], |
-                                 continue_thread: continue_thread              |
+      = render comment.comments, nesting_limit: nesting_limit,    |
+                                 nesting_depth: nesting_depth + 1 |
