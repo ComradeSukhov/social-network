@@ -4,9 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_one  :wall
-  has_many :posts
-  has_many :comments
+  has_one  :wall,     foreign_key: :owner_id
+  has_many :posts,    foreign_key: :author_id
+  has_many :comments, foreign_key: :author_id
 
   validates :first_name, :last_name, presence: true, length: { maximum: 25 }
 

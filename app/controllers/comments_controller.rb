@@ -1,11 +1,9 @@
 # This class is inhereted by other model' classes that has comments
 #   Each one of them define its own @commentable
 class CommentsController < ApplicationController
-  before_action :authenticate_user!
-
   def create
-    @comment      = @commentable.comments.new(comment_params)
-    @comment.user = current_user
+    @comment        = @commentable.comments.new(comment_params)
+    @comment.author = current_user
 
     # Regardless of a success or failure of the save,
     #   a user must be redirected back to the wall where he tries to comment

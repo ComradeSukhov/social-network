@@ -13,8 +13,8 @@
       - if comment.deleted?
         %span.weight-semibold [deleted]
       - else
-        %span.weight-semibold= link_to full_name(comment.user), |
-                                       user_path(comment.user)  |
+        %span.weight-semibold= link_to full_name(comment.author), |
+                                       user_path(comment.author)  |
 
       %span= link_to '[link to this comment]', url_for(comment: comment.id,
                                                         anchor: dom_id(comment))
@@ -37,7 +37,7 @@
                                                     nesting_limit) |
 
       -# Button to delete comment
-      - if comment.user == current_user
+      - if comment.author == current_user
         = link_to 'Delete', [comment.commentable, comment],        |
                              method:  :delete,                     |
                                data: { confirm: 'Are you sure?' }, |

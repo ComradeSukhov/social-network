@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "WelcomePages", type: :request do
-  describe "GET #show" do
+RSpec.describe "/welcome_page", type: :request do
+  describe "GET /show" do
 
     context 'when not logged in' do
       it 'is expected to respond with success' do
