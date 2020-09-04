@@ -23,7 +23,7 @@
       %p.grey= creation_time(comment)
 
       -# Block of the reply-to-comment form. Required by stimulus js
-      %div{ 'data-controller' => 'reply' }
+      .mt-1{ 'data-controller' => 'reply' }
         -# Button that toggles visibility of the form
         = link_to 'Reply', '#',  data: { action: 'click->reply#toggle' }, |
                                 class:  'button is-small'                 |
@@ -31,7 +31,7 @@
         = render 'comments/form',                                  |
                   commentable:  comment.commentable,               |
                        target: 'reply.form',                       |
-                        class: 'is-hidden',                        |
+                        class: 'is-hidden mt-2 is-clearfix',                        |
                     parent_id:  reply_to_comment_id(comment,       |
                                                     nesting_depth, |
                                                     nesting_limit) |
