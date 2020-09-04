@@ -9,7 +9,7 @@
 
   -# Block of a single comment
   .message
-    .message-body
+    .message-body#comment-body
       - if comment.deleted?
         %span.weight-semibold [deleted]
       - else
@@ -37,11 +37,13 @@
                                                     nesting_limit) |
 
       -# Button to delete comment
-      - if comment.author == current_user
-        = link_to 'Delete', [comment.commentable, comment],        |
-                             method:  :delete,                     |
-                               data: { confirm: 'Are you sure?' }, |
-                              class:  'button is-small'            |
+      = link_to_if comment.author == current_user,         |
+                   '',                                     |
+                  [comment.commentable, comment],          |
+                   method:  :delete,                       |
+                     data: { confirm: 'Delete comment?' }, |
+                    class:  'fa fa-trash-o',               |
+                       id:  'button--delete-comment'       |
 
   -# Block that contain children comments of the comment above
   .tile.is-parent.is-vertical{ id: "#{ dom_id(comment) }_comments" }
