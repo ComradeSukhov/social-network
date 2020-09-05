@@ -4,11 +4,16 @@ class PostsController < ApplicationController
   def show
     # Render a parent comment if such is given
     #   otherwise render direct comments of the post
-    if params[:parent_comment]
-      @comments = @post.comments.where(id: params[:parent_comment])
-    else
-      @comments = @post.comments.where(parent_id: nil)
-    end
+
+    comment_parameters = if params[:parent_comment]
+                           "comments.id = #{ params[:parent_comment] }"
+                         else
+                           'comments.parent_id IS NULL'
+                         end
+
+    @comments = @post.comments
+                     .where(comment_parameters)
+                     .order(:created_at)
   end
 
   def create

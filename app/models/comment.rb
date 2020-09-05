@@ -8,6 +8,7 @@ class Comment < ApplicationRecord
   # Return child comments for particular comment
   def comments
     Comment.where(commentable: commentable, parent_id: id)
+           .order(:created_at)
   end
 
   # Clear some comment' fields (using in comments#destroy)
