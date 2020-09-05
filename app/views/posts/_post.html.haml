@@ -1,5 +1,5 @@
 .tile.is-child.box
-  %p.title.is-5= link_to full_name(post.author), user_url(post.author)
+  %p.title.is-5= link_to post.author_name, user_url(post.author_id)
   %p.subtitle.is-6.grey= creation_time(post)
 
   %p.content= post.body
@@ -7,6 +7,5 @@
   %a.button{ href: post_path(post) }
     %span.icon.is-small
       %i.fa.fa-comment-o
-    - comments_quantity = post.comments.count
-    - if comments_quantity.positive?
-      %span= pluralize(comments_quantity, 'comment')
+    - if post.comments_quantity.positive?
+      %span= pluralize(post.comments_quantity, 'comment')

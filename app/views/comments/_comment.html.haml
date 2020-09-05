@@ -9,7 +9,7 @@
 
   -# Block of a single comment
   .message
-    .message-body
+    .message-body#comment-body
       - if comment.deleted?
         %span.weight-semibold [deleted]
       - else
@@ -23,7 +23,7 @@
       %p.grey= creation_time(comment)
 
       -# Block of the reply-to-comment form. Required by stimulus js
-      %div{ 'data-controller' => 'reply' }
+      .mt-1{ 'data-controller' => 'reply' }
         -# Button that toggles visibility of the form
         = link_to 'Reply', '#',  data: { action: 'click->reply#toggle' }, |
                                 class:  'button is-small'                 |
@@ -31,17 +31,19 @@
         = render 'comments/form',                                  |
                   commentable:  comment.commentable,               |
                        target: 'reply.form',                       |
-                        class: 'is-hidden',                        |
+                        class: 'is-hidden mt-2 is-clearfix',       |
                     parent_id:  reply_to_comment_id(comment,       |
                                                     nesting_depth, |
                                                     nesting_limit) |
 
       -# Button to delete comment
-      - if comment.author == current_user
-        = link_to 'Delete', [comment.commentable, comment],        |
-                             method:  :delete,                     |
-                               data: { confirm: 'Are you sure?' }, |
-                              class:  'button is-small'            |
+      = link_to_if comment.author == current_user,         |
+                   '',                                     |
+                  [comment.commentable, comment],          |
+                   method:  :delete,                       |
+                     data: { confirm: 'Delete comment?' }, |
+                    class:  'fa fa-trash-o',               |
+                       id:  'button--delete-comment'       |
 
   -# Block that contain children comments of the comment above
   .tile.is-parent.is-vertical{ id: "#{ dom_id(comment) }_comments" }
