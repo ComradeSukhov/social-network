@@ -1,0 +1,6 @@
+%ul
+  - @users.each do |user|
+    %li.pb-2
+      %a.box{ href: user_path(user) }
+        %span.semibold= user.name
+        = "(has #{ pluralize(user.posts_amount, 'post') })"

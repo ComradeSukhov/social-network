@@ -11,10 +11,10 @@
   .message
     .message-body#comment-body
       - if comment.deleted?
-        %span.weight-semibold [deleted]
+        %span.semibold [deleted]
       - else
-        %span.weight-semibold= link_to full_name(comment.author), |
-                                       user_path(comment.author)  |
+        %span.semibold= link_to full_name(comment.author), |
+                                user_path(comment.author)  |
 
       %span= link_to '[link to this comment]', url_for(comment: comment.id,
                                                         anchor: dom_id(comment))

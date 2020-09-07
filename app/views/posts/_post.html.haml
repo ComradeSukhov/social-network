@@ -7,5 +7,5 @@
   %a.button{ href: post_path(post) }
     %span.icon.is-small
       %i.fa.fa-comment-o
-    - if post.comments_quantity.positive?
-      %span= pluralize(post.comments_quantity, 'comment')
+    - if post.comments_amount.positive?
+      %span= pluralize(post.comments_amount, 'comment')
