@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'welcome_pages#show'
 
   resource  :welcome_page, only: [:show]
-  resources :users,        only: [:show]
+  resources :users,        only: [:index, :show]
 
   resources :posts, only: [:show, :create] do
     resources :comments, only: [:create, :destroy], module: :posts
