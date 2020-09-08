@@ -10,7 +10,7 @@ RSpec.describe "/welcome_page", type: :request do
     end
 
     context 'when logged in' do
-      let(:user) { create(:regular_user) }
+      let(:user) { create(:user) }
 
       it "it responds with redirect" do
         sign_in user

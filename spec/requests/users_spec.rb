@@ -11,7 +11,7 @@ RSpec.describe "/users", type: :request do
     end
 
     context 'when logged in' do
-      let(:user) { create(:regular_user) }
+      let(:user) { create(:user) }
 
       it "responds with success" do
         sign_in user
@@ -31,7 +31,7 @@ RSpec.describe "/users", type: :request do
     end
 
     context 'when logged in' do
-      let(:user) { create(:regular_user) }
+      let(:user) { create(:user) }
 
       it "responds with success" do
         sign_in user
