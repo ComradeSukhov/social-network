@@ -3,7 +3,7 @@
     .tile.is-parent.is-vertical
 
       -# Block with a post and additional informaiton
-      .tile.is-child.box
+      .tile.is-child.box.post-container
         %p.title.is-5= link_to full_name(@post.author), user_url(@post.author)
         %p.subtitle.is-6.grey= creation_time(@post)
         %p.content= @post.body

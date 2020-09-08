@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
-
   before(:context) do
     @user    = create(:user)
     @post    = @user.posts.create(attributes_for(:post, wall_id: @user.wall.id))

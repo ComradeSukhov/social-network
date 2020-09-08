@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'faker'
 
 RSpec.describe User, type: :model do
-
   before(:context) do
     @user = create(:user, email: Faker::Internet.unique.email.upcase)
   end
