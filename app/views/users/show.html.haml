@@ -4,7 +4,7 @@
 
       -# Block with a user' name and additional information about that user
       .tile.is-child.box
-        %p.title.is-3= full_name(@user)
+        %p.title.is-3#userFullName= full_name(@user)
 
       -# Block with only form for posting
       .tile.is-child.box= render 'posts/form'

@@ -2,6 +2,16 @@ require 'rails_helper'
 require 'faker'
 
 RSpec.describe User, type: :model do
+
+  before(:context) do
+    @user = create(:user, email: Faker::Internet.unique.email.upcase)
+  end
+
+  after(:context) do
+    @user.wall.destroy
+    @user.destroy
+  end
+
   context 'associations' do
     it { should have_one(:wall).class_name('Wall') }
     it { should have_many(:posts).class_name('Post') }
@@ -9,8 +19,6 @@ RSpec.describe User, type: :model do
   end
 
   context 'validations' do
-    subject { create(:user) }
-
     it { should validate_presence_of(:first_name) }
     it { should validate_presence_of(:last_name) }
 
@@ -20,14 +28,12 @@ RSpec.describe User, type: :model do
   end
 
   context 'when saved' do
-    let(:user) { create(:user, email: Faker::Internet.unique.email.upcase) }
-
     it 'has email only in lowercase letters' do
-      expect(user.email).to eq(user.email.downcase)
+      expect(@user.email).to eq(@user.email.downcase)
     end
 
     it 'has a wall' do
-      expect(user.wall).to be_a(Wall)
+      expect(@user.wall).to be_a(Wall)
     end
   end
 end

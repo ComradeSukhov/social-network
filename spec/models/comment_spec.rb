@@ -2,9 +2,18 @@ require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
 
-  before(:all) do
-    @user = create(:user)
-    @post = @user.posts.create(attributes_for(:post, wall_id: @user.wall.id))
+  before(:context) do
+    @user    = create(:user)
+    @post    = @user.posts.create(attributes_for(:post, wall_id: @user.wall.id))
+    @comment = @post.comments.create(attributes_for(:comment,
+                                                      author_id: @user.id))
+  end
+
+  after(:context) do
+    @comment.destroy
+    @post.destroy
+    @user.wall.destroy
+    @user.destroy
   end
 
   context 'associations' do
@@ -17,11 +26,6 @@ RSpec.describe Comment, type: :model do
     it { should validate_presence_of(:body) }
   end
 
-  before(:each) do
-    @comment = @post.comments.create(attributes_for(:comment,
-                                                     author_id: @user.id))
-  end
-
   describe '#comments' do
     context 'when a comment has no child comments' do
       it 'returns an empty array' do
@@ -30,7 +34,7 @@ RSpec.describe Comment, type: :model do
     end
 
     context 'when a comment has some child comments' do
-      before(:each) do
+      before(:example) do
         rand(3..150).times do
           @comment.comments
                   .create(attributes_for(:comment,
@@ -48,8 +52,14 @@ RSpec.describe Comment, type: :model do
   end
 
   describe '#clear_fields' do
-    before(:each) do
+    before(:example) do
+      @comment_clone = @comment.dup
       @comment.clear_fields
+    end
+
+    after(:example) do
+      @comment.author_id = @comment_clone.author_id
+      @comment.body = @comment_clone.body
     end
 
     it "changes some comment's fields" do
@@ -60,17 +70,23 @@ RSpec.describe Comment, type: :model do
 
   describe '#deleted?' do
     context 'when comment is not deleted' do
-      it "returns false" do
+      it 'returns false' do
         expect(@comment.deleted?).to be(false)
       end
     end
 
     context 'when comment is deleted' do
-      before(:each) do
+      before(:example) do
+        @comment_clone = @comment.dup
         @comment.clear_fields
       end
 
-      it "returns true" do
+      after(:example) do
+        @comment.author_id = @comment_clone.author_id
+        @comment.body = @comment_clone.body
+      end
+
+      it 'returns true' do
         expect(@comment.deleted?).to be(true)
       end
     end
