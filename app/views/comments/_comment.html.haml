@@ -28,13 +28,11 @@
         = link_to 'Reply', '#',  data: { action: 'click->reply#toggle' }, |
                                 class:  'button is-small'                 |
         -# target: the pointer for stimulus to the form
-        = render 'comments/form',                                  |
-                  commentable:  comment.commentable,               |
-                       target: 'reply.form',                       |
-                        class: 'is-hidden mt-2 is-clearfix',       |
-                    parent_id:  reply_to_comment_id(comment,       |
-                                                    nesting_depth, |
-                                                    nesting_limit) |
+        = render 'comments/form',                            |
+                  commentable:  comment.commentable,         |
+                       target: 'reply.form',                 |
+                        class: 'is-hidden mt-2 is-clearfix', |
+                    parent_id:  comment.id                   |
 
       -# Button to delete comment
       = link_to_if comment.author == current_user,         |
