@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "/welcome_page", type: :request do
+RSpec.describe 'WelcomePages', type: :request do
   before(:context) do
     @user = create(:user)
   end
@@ -10,13 +10,13 @@ RSpec.describe "/welcome_page", type: :request do
     @user.destroy
   end
 
-  describe "GET /show" do
+  describe 'GET /welcome_page' do
     context 'when not logged in' do
       before(:example) do
         get welcome_page_path
       end
 
-      it "displays no aside block" do
+      it 'displays no aside block' do
         expect(response).to have_http_status :success
         assert_select('aside', false)
       end
@@ -28,7 +28,7 @@ RSpec.describe "/welcome_page", type: :request do
         get welcome_page_path
       end
 
-      it "it responds with redirect" do
+      it 'it responds with redirect' do
         expect(response).to have_http_status :redirect
       end
     end

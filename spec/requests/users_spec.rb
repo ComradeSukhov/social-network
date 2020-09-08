@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "/users", type: :request do
+RSpec.describe 'Users', type: :request do
   before(:context) do
     @user = create(:user)
   end
@@ -10,13 +10,13 @@ RSpec.describe "/users", type: :request do
     @user.destroy
   end
 
-  describe "GET #show" do
+  describe 'GET /users/:id' do
     context 'when not logged in' do
       before(:example) do
         get user_path(rand(1..1000))
       end
 
-      it "it responds with redirect" do
+      it 'it responds with redirect' do
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -36,13 +36,13 @@ RSpec.describe "/users", type: :request do
     end
   end
 
-  describe "GET #index" do
+  describe 'GET /users' do
     context 'when not logged in' do
       before(:example) do
         get users_path
       end
 
-      it "it responds with redirect" do
+      it 'it responds with redirect' do
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -58,7 +58,7 @@ RSpec.describe "/users", type: :request do
           get users_path
         end
 
-        it "renders empty page" do
+        it 'renders empty page' do
           expect(response).to have_http_status(:success)
           assert_select('#usersList') do
             assert_select('li', 0)

@@ -70,7 +70,7 @@ RSpec.describe Comment, type: :model do
 
   describe '#deleted?' do
     context 'when comment is not deleted' do
-      it "returns false" do
+      it 'returns false' do
         expect(@comment.deleted?).to be(false)
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe Comment, type: :model do
         @comment.body = @comment_clone.body
       end
 
-      it "returns true" do
+      it 'returns true' do
         expect(@comment.deleted?).to be(true)
       end
     end
