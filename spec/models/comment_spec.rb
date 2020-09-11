@@ -1,8 +1,11 @@
 require 'rails_helper'
+require_relative '../support/helpers/user_creation'
+require_relative '../support/helpers/clearing_comment_fields'
 
 RSpec.describe Comment, type: :model do
+  include_context 'create a user'
+
   before(:context) do
-    @user    = create(:user)
     @post    = @user.posts.create(attributes_for(:post, wall_id: @user.wall.id))
     @comment = @post.comments.create(attributes_for(:comment,
                                                       author_id: @user.id))
@@ -11,8 +14,6 @@ RSpec.describe Comment, type: :model do
   after(:context) do
     @comment.destroy
     @post.destroy
-    @user.wall.destroy
-    @user.destroy
   end
 
   context 'associations' do
@@ -34,7 +35,8 @@ RSpec.describe Comment, type: :model do
 
     context 'when a comment has some child comments' do
       before(:example) do
-        rand(3..150).times do
+        @children_amount = rand(3..150)
+        @children_amount.times do
           @comment.comments
                   .create(attributes_for(:comment,
                                           author_id: @comment.author.id))
@@ -42,6 +44,7 @@ RSpec.describe Comment, type: :model do
       end
 
       it 'returns an array of child comments' do
+        @comment.comments.count == @children_amount
         @comment.comments.each do |child|
           expect(child).to be_a(Comment)
           expect(child.parent_id).to eq(@comment.id)
@@ -51,15 +54,7 @@ RSpec.describe Comment, type: :model do
   end
 
   describe '#clear_fields' do
-    before(:example) do
-      @comment_clone = @comment.dup
-      @comment.clear_fields
-    end
-
-    after(:example) do
-      @comment.author_id = @comment_clone.author_id
-      @comment.body = @comment_clone.body
-    end
+    include_context "clear comment's fields"
 
     it "changes some comment's fields" do
       expect(@comment.author_id).to be_nil
@@ -75,15 +70,7 @@ RSpec.describe Comment, type: :model do
     end
 
     context 'when comment is deleted' do
-      before(:example) do
-        @comment_clone = @comment.dup
-        @comment.clear_fields
-      end
-
-      after(:example) do
-        @comment.author_id = @comment_clone.author_id
-        @comment.body = @comment_clone.body
-      end
+      include_context "clear comment's fields"
 
       it 'returns true' do
         expect(@comment.deleted?).to be(true)
