@@ -1,15 +1,8 @@
 require 'rails_helper'
-require 'faker'
+require_relative '../support/helpers/user_creation'
 
 RSpec.describe User, type: :model do
-  before(:context) do
-    @user = create(:user, email: Faker::Internet.unique.email.upcase)
-  end
-
-  after(:context) do
-    @user.wall.destroy
-    @user.destroy
-  end
+  include_context 'create a user'
 
   context 'associations' do
     it { should have_one(:wall).class_name('Wall') }

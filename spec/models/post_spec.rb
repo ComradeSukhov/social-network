@@ -8,11 +8,6 @@ RSpec.describe Post, type: :model do
   end
 
   context 'validations' do
-    subject do
-      user = create(:user)
-      user.posts.create(attributes_for(:post, wall_id: user.wall.id))
-    end
-
     it { should validate_presence_of(:body) }
     it { should validate_presence_of(:author_id) }
     it { should validate_presence_of(:wall_id) }
