@@ -29,7 +29,7 @@ class PostsController < ApplicationController
       flash[:failed_post_errors] = @post.errors.full_messages
     end
 
-    redirect_back(fallback_location: root_path)
+    redirect_to user_path(params[:post][:user_id])
   end
 
   private
