@@ -1,65 +1,47 @@
 require 'rails_helper'
+require_relative '../support/helpers/user_creation'
 
 RSpec.describe 'Users', type: :request do
-  before(:context) do
-    @user = create(:user)
-  end
+  context 'when not logged in' do
+    after(:example) do
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to(new_user_session_path)
+    end
 
-  after(:context) do
-    @user.wall.destroy
-    @user.destroy
-  end
-
-  describe 'GET /users/:id' do
-    context 'when not logged in' do
-      before(:example) do
-        get user_path(rand(1..1000))
-      end
-
-      it 'it responds with redirect' do
-        expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to(new_user_session_path)
+    describe 'GET /users/:id' do
+      it 'responds with redirect' do
+        get user_path(0)
       end
     end
 
-    context 'when logged in' do
-      before(:example) do
-        sign_in @user
-        get user_path(@user)
-      end
-
-      it "displays a user's page" do
-        expect(response).to have_http_status(:success)
-        assert_select('#userFullName', @user.first_name + ' ' + @user.last_name)
-        assert_select('form[action = ?]', posts_path)
-      end
-    end
-  end
-
-  describe 'GET /users' do
-    context 'when not logged in' do
-      before(:example) do
+    describe 'GET /users' do
+      it 'responds with redirect' do
         get users_path
       end
+    end
+  end
 
-      it 'it responds with redirect' do
-        expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to(new_user_session_path)
+  context 'when logged in' do
+    include_context 'create a user'
+
+    before(:example) do
+      sign_in @user
+    end
+
+    describe 'GET /users/:id' do
+      it "displays a user's page" do
+        get user_path(@user)
+
+        expect(response).to have_http_status(200)
       end
     end
 
-    context 'when logged in' do
-      before(:example) do
-        sign_in @user
-      end
-
+    describe 'GET /users' do
       context 'when there is no other users registered' do
-        before(:example) do
-          get users_path
-        end
-
         it 'renders empty page' do
-          expect(response).to have_http_status(:success)
+          get users_path
+
+          expect(response).to have_http_status(200)
           assert_select('#usersList') do
             assert_select('li', 0)
           end
@@ -70,11 +52,12 @@ RSpec.describe 'Users', type: :request do
         before(:example) do
           @users_amount = rand(3..150)
           create_list(:user, @users_amount)
-          get users_path
         end
 
-        it "renders a page with #{ @users_amount } users" do
-          expect(response).to have_http_status(:success)
+        it "renders a page with #{@users_amount} users" do
+          get users_path
+
+          expect(response).to have_http_status(200)
           assert_select('#usersList') do
             assert_select('li', @users_amount).each do |li|
               assert_select(li, "a:match('href', ?)", %r{users/\d+})

@@ -1,35 +1,28 @@
 require 'rails_helper'
-include ApplicationHelper
-include UsersHelper
+require_relative '../support/helpers/user_creation'
 
 RSpec.describe 'Posts', type: :request do
   context 'when not logged in' do
-    describe 'all requests' do
-      it 'respond with redirect' do
-        responses = []
+    after(:example) do
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to(new_user_session_path)
+    end
 
+    describe 'GET /posts/:id' do
+      it 'responds with redirect' do
         get post_path(0)
-        responses << response
-        post posts_path
-        responses << response
+      end
+    end
 
-        responses.each do |response|
-          expect(response).to have_http_status(:redirect)
-          expect(response).to redirect_to(new_user_session_path)
-        end
+    describe 'POST /posts' do
+      it 'responds with redirect' do
+        post posts_path
       end
     end
   end
 
   context 'when logged in' do
-    before(:context) do
-      @user = create(:user)
-    end
-
-    after(:context) do
-      @user.wall.destroy
-      @user.destroy
-    end
+    include_context 'create a user'
 
     before(:example) do
       sign_in @user
@@ -37,10 +30,6 @@ RSpec.describe 'Posts', type: :request do
                                          author_id: @user.id,
                                            user_id: @user.id,
                                            wall_id: @user.wall.id)
-    end
-
-    after(:example) do
-      @post.destroy if @post
     end
 
     describe 'GET /posts/:id' do
@@ -56,11 +45,6 @@ RSpec.describe 'Posts', type: :request do
     end
 
     describe 'POST /posts' do
-      before(:example) do
-        get user_path(@user)
-        expect(response).to have_http_status(200)
-      end
-
       context 'when post have incorrect data' do
         it 'displays an error message' do
           @post_attributes.delete(:body)
@@ -77,7 +61,7 @@ RSpec.describe 'Posts', type: :request do
       end
 
       context 'when post have correct data' do
-        it 'displays a page includeing new post' do
+        it "creates a new post on user's wall" do
           expect { post posts_path, params: { post: @post_attributes } }
             .to change { Post.count }.by 1
           expect(response).to have_http_status(302)
