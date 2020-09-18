@@ -5,7 +5,7 @@
 - nesting_limit = local_assigns[:nesting_limit]
 
 -# Give each thread block an individual id in order to be able anchor any of it
-.tile.is-child{ id: dom_id(comment) }
+%li{ id: dom_id(comment) }
 
   -# Block of a single comment
   .message
@@ -44,14 +44,16 @@
                        id:  'button--delete-comment'       |
 
   -# Block that contain children comments of the comment above
-  .tile.is-parent.is-vertical{ id: "#{ dom_id(comment) }_comments" }
+  %ul.ml-6{ id: "#{ dom_id(comment) }_comments" }
 
     -# If nesting depth isn't set or has reached its limit
     -#   move subsequent comments to the next page
     -# Otherwise keep nesting
     - if nesting_limit.present? && (nesting_depth >= nesting_limit)
-      = link_to 'Continue this thread',                                       |
-                 url_for(parent_comment: comment.id, anchor: dom_id(comment)) |
+      = link_to 'Continue this thread ➔',                                      |
+                 url_for(parent_comment: comment.id, anchor: dom_id(comment)), |
+                 class: 'button is-outlined mb-5 is-info'                      |
+
     - else
       = render comment.comments, nesting_limit: nesting_limit,    |
                                  nesting_depth: nesting_depth + 1 |
