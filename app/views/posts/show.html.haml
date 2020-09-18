@@ -9,7 +9,7 @@
         %p.content= @post.body
 
       -# Block with form for commenting
-      .tile.is-child.box
+      .tile.is-child.box.is-clearfix
         = render 'comments/form', commentable: @post
 
       -# Block that displays errors if comment' form failed validations
