@@ -5,7 +5,7 @@
 - nesting_limit = local_assigns[:nesting_limit]
 
 -# Give each thread block an individual id in order to be able anchor any of it
-.tile.is-child{ id: dom_id(comment) }
+%li{ id: dom_id(comment) }
 
   -# Block of a single comment
   .message
@@ -19,39 +19,43 @@
       %span= link_to '[link to this comment]', url_for(comment: comment.id,
                                                         anchor: dom_id(comment))
 
-      %p= simple_format comment.body
-      %p.grey= creation_time(comment)
+      .my-3
+        = simple_format comment.body
+      %p.grey.mb-3= creation_time(comment)
 
       -# Block of the reply-to-comment form. Required by stimulus js
       .mt-1{ 'data-controller' => 'reply' }
         -# Button that toggles visibility of the form
-        = link_to 'Reply', '#',  data: { action: 'click->reply#toggle' }, |
-                                class:  'button is-small'                 |
+        = link_to 'Reply', '#',                             |
+                   data: { action: 'click->reply#toggle' }, |
+                  class:  'button is-info is-outlined       |
+                           button--reply-to-comment'        |
         -# target: the pointer for stimulus to the form
         = render 'comments/form',                            |
                   commentable:  comment.commentable,         |
                        target: 'reply.form',                 |
-                        class: 'is-hidden mt-2 is-clearfix', |
+                        class: 'is-hidden mt-4 is-clearfix', |
                     parent_id:  comment.id                   |
 
       -# Button to delete comment
-      = link_to_if comment.author == current_user,         |
-                   '',                                     |
-                  [comment.commentable, comment],          |
-                   method:  :delete,                       |
-                     data: { confirm: 'Delete comment?' }, |
-                    class:  'fa fa-trash-o',               |
-                       id:  'button--delete-comment'       |
+      = link_to_if comment.author == current_user,                 |
+                   '',                                             |
+                  [comment.commentable, comment],                  |
+                   method:  :delete,                               |
+                     data: { confirm: 'Delete comment?' },         |
+                    class:  'fa fa-trash-o button--delete-comment' |
 
   -# Block that contain children comments of the comment above
-  .tile.is-parent.is-vertical{ id: "#{ dom_id(comment) }_comments" }
+  %ul.ml-6{ id: "#{ dom_id(comment) }_comments" }
 
     -# If nesting depth isn't set or has reached its limit
     -#   move subsequent comments to the next page
     -# Otherwise keep nesting
     - if nesting_limit.present? && (nesting_depth >= nesting_limit)
-      = link_to 'Continue this thread',                                       |
-                 url_for(parent_comment: comment.id, anchor: dom_id(comment)) |
+      = link_to 'Continue this thread ➔',                                      |
+                 url_for(parent_comment: comment.id, anchor: dom_id(comment)), |
+                 class: 'button is-outlined mb-5 is-info'                      |
+
     - else
       = render comment.comments, nesting_limit: nesting_limit,    |
                                  nesting_depth: nesting_depth + 1 |

@@ -8,7 +8,7 @@
         %p.subtitle.is-6.grey= creation_time(@post)
         %p.content= @post.body
 
-      -# Block with only form for commenting
+      -# Block with form for commenting
       .tile.is-child.box
         = render 'comments/form', commentable: @post
 
@@ -18,17 +18,18 @@
           %p= "Sorry, #{ pluralize(flash[:failed_comment_errors].size,
                 'error') } prohibited your comment from being posted"
           - flash[:failed_comment_errors].each do |msg|
-            %p= "\u2022".encode('utf-8') + ' ' + msg # \u2022 aka bullet
+            %p= "• #{msg}"
 
-    .tile.is-parent.is-vertical.box
+      -# Block with comment threads
+      .tile.is-child.box
+        %ul
+          -# If a user looks at a particular comment thread
+          -#   then a page has to contain a link to the original post' page
+          - if params[:parent_comment]
+            %li.content
+              %span Viewing single comment thread.
+              = link_to ' View all comments', url_for()
 
-      -# If a user looks at a particular comment thread
-      -#   then a page has to contain a link to the original post' page
-      - if params[:parent_comment]
-        .tile.is-child
-          %span Viewing single comment thread.
-          = link_to ' View all comments', url_for()
-
-      -# Several blocks of comment threads. Each one contains several
-      -#   comment threads that have the same parent (root)
-      = render @comments, nesting_limit: PAGE_NESTING_DEPTH_LIMIT_PER_THREAD
+          -# Several blocks of comment threads. Each one contains several
+          -#   comment threads that have the same parent (root)
+          = render @comments, nesting_limit: PAGE_NESTING_DEPTH_LIMIT_PER_THREAD

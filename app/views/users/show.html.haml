@@ -7,7 +7,7 @@
         %p.title.is-3= full_name(@user)
 
       -# Block with only form for posting
-      .tile.is-child.box= render 'posts/form'
+      .tile.is-child.box.is-clearfix= render 'posts/form'
 
       -# Several blocks. Each one contains a single post
       = render @posts
