@@ -1,6 +1,6 @@
 require 'rails_helper'
-require_relative '../support/helpers/user_creation'
-require_relative '../support/helpers/clearing_comment_fields'
+require_relative '../support/helpers/user_contexts'
+require_relative '../support/helpers/comment_contexts'
 
 RSpec.describe Comment, type: :model do
   include_context 'create a user'
