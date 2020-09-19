@@ -1,6 +1,6 @@
 .tile.is-child.box
   %p.title.is-5= link_to post.author_name, user_url(post.author_id)
-  %p.subtitle.is-6.grey= creation_time(post)
+  %p.subtitle.is-6.grey= formatted_creation_time_of(post)
 
   %p.content= post.body
 
