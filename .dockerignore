@@ -1,0 +1,7 @@
+**/.git*
+log/*
+tmp/*
+storage/*
+
+**/docker-compose.yml
+**/Dockerfile

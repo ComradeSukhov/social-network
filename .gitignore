@@ -38,8 +38,5 @@ yarn-debug.log*
 # Simplecov gem' folder
 /coverage
 
-# Delayed tasks list
-TODO.md
-
-# Storage folder for my own temporary files
-/my_temp
+#  Other stuff
+/log.txt
