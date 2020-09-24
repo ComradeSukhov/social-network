@@ -1,21 +1,17 @@
 version: '3'
 services:
   db:
-    build:
-      context: .
-      dockerfile: Dockerfile.postgres
+    image: postgres:12.4
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile.app
+  app:
+    build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/myapp
+      - .:/social-network
     ports:
       - "3000:3000"
     depends_on:

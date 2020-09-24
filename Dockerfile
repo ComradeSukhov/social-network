@@ -6,10 +6,10 @@ LABEL version = "0.5.8"
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt update -qq && apt install -y nodejs yarn
+RUN apt update -qq && apt install -y nodejs yarn postgresql-client
 
 # Prepare app
-WORKDIR /myapp
+WORKDIR /social-network
 COPY . .
 RUN bundle
 

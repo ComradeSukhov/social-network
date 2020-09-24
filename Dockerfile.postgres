@@ -1,7 +1,0 @@
-FROM postgres:12.4
-
-# Get necessary packages
-RUN apt update -qq && apt install postgresql-client
-
-# Prepare DB
-RUN rake db:prepare

@@ -5,3 +5,6 @@ storage/*
 
 **/docker-compose.yml
 **/Dockerfile
+
+/log.txt
+/secrets
