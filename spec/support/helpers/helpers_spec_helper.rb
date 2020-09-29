@@ -1,4 +1,4 @@
-shared_context 'time related helpers' do
+module TimeTestingHelper
   class SimpleObject
     attr_reader :created_at
 
@@ -7,11 +7,7 @@ shared_context 'time related helpers' do
     end
   end
 
-  def random_time(start_date, finish_date)
+  def random_time_between(start_date, finish_date)
     Time.at(start_date + rand * (finish_date - start_date))
-  end
-
-  def next_year_time(obj)
-    Time.new(obj.created_at.year + 1)
   end
 end

@@ -8,6 +8,7 @@ require 'devise'
 require_relative 'support/factory_bot'
 require_relative 'support/devise'
 require_relative 'support/shoulda_matchers'
+require_relative 'support/helpers_config'
 
 begin
   ActiveRecord::Migration.maintain_test_schema!

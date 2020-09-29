@@ -21,7 +21,7 @@
 
       .my-3
         = simple_format comment.body
-      %p.grey.mb-3= creation_time(comment)
+      %p.grey.mb-3= formatted_creation_time_of(comment)
 
       -# Block of the reply-to-comment form. Required by stimulus js
       .mt-1{ 'data-controller' => 'reply' }

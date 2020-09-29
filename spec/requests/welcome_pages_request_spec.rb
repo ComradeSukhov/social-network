@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative '../support/helpers/user_creation'
+require_relative '../support/helpers/user_contexts'
 
 RSpec.describe 'WelcomePages', type: :request do
   include_context 'create a user'
