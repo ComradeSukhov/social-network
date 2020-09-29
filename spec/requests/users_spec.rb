@@ -31,6 +31,7 @@ RSpec.describe 'Users', type: :request do
     context 'when not logged in' do
       it 'responds with redirect' do
         get users_path
+
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(new_user_session_path)
       end

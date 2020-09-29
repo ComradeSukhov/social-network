@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'faker'
 require_relative '../support/helpers/user_contexts'
 
 RSpec.describe User, type: :model do
